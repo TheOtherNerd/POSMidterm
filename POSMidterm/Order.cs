@@ -9,11 +9,11 @@ namespace POSMidterm
     public class Order
     {
         public List<Product> ItemsForSale { get; set; } = new List<Product>();
-        public List<Product> ItemsPurchased { get; set; } =  new List<Product>();
+        public List<Product> ItemsPurchased { get; set; } = new List<Product>();
 
         public Order()
         {
-            ItemsForSale.Add(new Product("Coffee", CategoryType.Drink, "Nice hot coffee",5.99));
+            ItemsForSale.Add(new Product("Coffee", CategoryType.Drink, "Nice hot coffee", 5.99));
             ItemsForSale.Add(new Product("Tea", CategoryType.Drink, "Lemongrass tea", 3.99));
             ItemsForSale.Add(new Product("Cookie", CategoryType.Pastry, "Warm chocolate chip", .99));
             ItemsForSale.Add(new Product("Mug", CategoryType.Merch, "Cup with store logo", 9.99));
@@ -35,7 +35,7 @@ namespace POSMidterm
             }
             return ItemsPurchased;
         }
-
+        // enhance receipt to print a formatted table that includes price for each line item.
         public double PrintRecipt()
         {
             Console.WriteLine("Receipt");
@@ -46,15 +46,143 @@ namespace POSMidterm
                 Console.WriteLine(ItemsPurchased[i].ProductName);
                 subtotal += ItemsPurchased[i].Price;
             }
-            Console.WriteLine($"Subtotal: ${ Math.Round(subtotal, 2)}");
+            Console.WriteLine($"Subtotal:   ${ Math.Round(subtotal, 2)}");
             double taxAmount = .065 * subtotal;
             double grandTotal = subtotal + taxAmount;
-            Console.WriteLine($"Tax: {Math.Round(taxAmount, 2)}");
-            Console.WriteLine($"Total: {Math.Round(grandTotal, 2)}");
-            
+            Console.WriteLine($"Tax:        ${Math.Round(taxAmount, 2)}");
+            Console.WriteLine($"Total:      ${Math.Round(grandTotal, 2)}");
+
             return grandTotal;
         }
+        public void PayByCash(double grandTotal)
+        {
+            while (true)
+            {
+                Console.WriteLine($"Your total is ${Math.Round(grandTotal, 2)}");
+                Console.WriteLine("What is the total value of the tender you are paying with");
+                try
+                {
+                    double tender = double.Parse(Console.ReadLine());
+                    if (tender >= grandTotal)
+                    {
+                        Console.WriteLine($"Thanks. That's ${Math.Round(tender - grandTotal, 2)} in change coming back to you.");
+                        break;
+                    }
+                    else if (tender < grandTotal)
+                    {
+                        Console.WriteLine($"That's not enough! You still owe ${Math.Round(grandTotal - tender, 2)}. Let's try that again.");
+                        continue;
+                    }
+                    else
+                    {
+                        Console.WriteLine("That is not a valid response. Please try again");
+                        continue;
+                    }
+
+
+                }
+                catch
+                {
+                    Console.WriteLine("Sorry, that is not a valid response. Please try again.");
+                    continue;
+                }
+            }
+        }
+        public string GetCreditNumber()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please enter your credit card number");
+                string creditCardNumber = Console.ReadLine().Trim().ToLower();
+                bool isNumeric = double.TryParse($"{creditCardNumber}", out _);
+
+                if (isNumeric && creditCardNumber.Length == 16)
+                {
+                    return creditCardNumber;
+                }
+                else
+                {
+                    Console.WriteLine("That is not a valid credit card number. Please try again.");
+                    continue;
+                }
+            }
+        }
+        public string GetCreditCardMonth()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("In which month does your credit card expire?");
+                    string creditCardMonth = Console.ReadLine().Trim().ToLower();
+                    bool isNumeric = double.TryParse($"{creditCardMonth}", out _);
+                    int monthNum = int.Parse(creditCardMonth);
+
+                    if (isNumeric && creditCardMonth.Length == 2 && monthNum <= 12)
+                    {
+                        return creditCardMonth;
+                    }
+                    else
+                    {
+                        Console.WriteLine("That is not a valid expiration date. Please try again.");
+                        continue;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("That is not a valid expiration date. Please try again.");
+                    continue;
+                }
+
+            }
+        }
+        public string GetCreditCardYear()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("In which year does your credit card expire?");
+                    string creditCardYear = Console.ReadLine().Trim().ToLower();
+                    bool isNumeric = double.TryParse($"{creditCardYear}", out _);
+                    int yearNum = int.Parse(creditCardYear);
+
+                    if (isNumeric && creditCardYear.Length == 4 && yearNum > 2021)
+                    {
+                        return creditCardYear;
+                    }
+                    else
+                    {
+                        Console.WriteLine("That is not a valid expiration date. Please try again.");
+                        continue;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("That is not a valid expiration date. Please try again.");
+                    continue;
+                }
+            }
+        }
+        public int GetCVV()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please enter your CVV");
+                try
+                {
+                    int cvv = int.Parse(Console.ReadLine());
+                    return cvv;
+                }
+                catch
+                {
+                    Console.WriteLine("That is not a valid CVV, please try again.");
+                    continue;
+                }
+            }
+        }
+        
+        
     }
 }
-
 

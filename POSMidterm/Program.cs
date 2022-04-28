@@ -31,6 +31,7 @@
                         }
                         else
                         {
+
                             while (true)
                             {
                                 Console.WriteLine($"How many {o.ItemsForSale[userInput - 1].ProductName}s would you like to purchase?");
@@ -45,11 +46,10 @@
                                     else
                                     {
                                         o.AddToCart(userInput - 1, desiredQuantity);
-                                        Console.WriteLine($"Okay, that'll be ${Math.Round(desiredQuantity * o.ItemsForSale[userInput-1].Price,2)}");
+                                        Console.WriteLine($"Okay, that'll be ${Math.Round(desiredQuantity * o.ItemsForSale[userInput - 1].Price, 2)}");
                                         Console.WriteLine();
+                                        break;
                                     }
-
-                                    break;
                                 }
                                 catch
                                 {
@@ -58,6 +58,8 @@
                                 }
                             }
                             break;
+                            
+
                         }
                     }
                     catch
@@ -65,10 +67,51 @@
                         Console.WriteLine("Sorry, that was not a valid input. Please try again.");
                         continue;
                     }
+
                 }
                 runAgain = h.RunAgain();
-                o.PrintRecipt();
             }
+                
+                double grandTotal = o.PrintRecipt();
+                while (true)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("How would you like to pay? We accept cash, credit, and checks.");
+                    try
+                    {
+                        string paymentMethod = Console.ReadLine().ToLower().Trim();
+                        if (paymentMethod == "cash")
+                        {
+                            o.PayByCash(grandTotal);
+                            break;
+                        }
+                        else if (paymentMethod == "credit")
+                        {
+                        string creditCardNumber = o.GetCreditNumber();
+                        string creditCardMonth = o.GetCreditCardMonth();
+                        string creditCardYear = o.GetCreditCardYear();
+                        int cvv = o.GetCVV();
+                            break;
+                        }
+                        else if(paymentMethod == "check")
+                        {
+                            //add method for paying with check
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Sorry, I didn't understand, please try again.");
+                            continue;
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Sorry, that is not a valid entry. Please try again.");
+                        continue;
+                    }
+                }
+
+            
             
 
 
