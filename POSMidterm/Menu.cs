@@ -29,9 +29,6 @@ namespace POSMidterm
             {
                 Console.WriteLine($"{i + 1} { o.ItemsForSale[i].Desc}");
                 Console.WriteLine($"{i + 1} { o.ItemsForSale[i].Price}");
-
-
-
             }
         }
 
@@ -44,13 +41,13 @@ namespace POSMidterm
             o.ItemsForSale[3].ProductName = "4. Mug     ";
             o.ItemsForSale[4].ProductName = "5. Egg Sandwich";
             Console.WriteLine();
-            Console.Write("Item" + "\t\t\t" + "Price" + "\t\t\t" + "Description");
+            Console.Write("Item" + "\t\t\t" + "Price" + "\t\t  " + "Description");
             Console.WriteLine();
-            Console.Write("============" +"\t\t" + "============" + "\t\t" + "============");
+            Console.Write("=======" +"\t\t\t" + "======" + "\t\t  " + "=================");
             Console.WriteLine();
             for (int i = 0; i < o.ItemsForSale.Count; i++)
             {
-                Console.WriteLine(o.ItemsForSale[i].ProductName + "\t\t" + o.ItemsForSale[i].Price + "\t\t\t" + o.ItemsForSale[i].Desc);
+                Console.WriteLine(o.ItemsForSale[i].ProductName + "\t\t" + o.ItemsForSale[i].Price + "\t\t  " + o.ItemsForSale[i].Desc);
             }
             o.ItemsForSale[0].ProductName = "Coffee";
             o.ItemsForSale[1].ProductName = "Tea";
