@@ -46,6 +46,7 @@ namespace POSMidterm
                 Console.WriteLine(ItemsPurchased[i].ProductName);
                 subtotal += ItemsPurchased[i].Price;
             }
+            Console.WriteLine();
             Console.WriteLine($"Subtotal:   ${ Math.Round(subtotal, 2)}");
             double taxAmount = .065 * subtotal;
             double grandTotal = subtotal + taxAmount;
@@ -54,7 +55,7 @@ namespace POSMidterm
 
             return grandTotal;
         }
-        public void PayByCash(double grandTotal)
+        public double PayByCash(double grandTotal)
         {
             while (true)
             {
@@ -66,7 +67,7 @@ namespace POSMidterm
                     if (tender >= grandTotal)
                     {
                         Console.WriteLine($"Thanks. That's ${Math.Round(tender - grandTotal, 2)} in change coming back to you.");
-                        break;
+                        return tender;
                     }
                     else if (tender < grandTotal)
                     {
@@ -113,7 +114,7 @@ namespace POSMidterm
             {
                 try
                 {
-                    Console.WriteLine("In which month does your credit card expire?");
+                    Console.WriteLine("In which month does your credit card expire? Please enter in MM format.");
                     string creditCardMonth = Console.ReadLine().Trim().ToLower();
                     bool isNumeric = double.TryParse($"{creditCardMonth}", out _);
                     int monthNum = int.Parse(creditCardMonth);
@@ -142,7 +143,7 @@ namespace POSMidterm
             {
                 try
                 {
-                    Console.WriteLine("In which year does your credit card expire?");
+                    Console.WriteLine("In which year does your credit card expire? Please enter in YYYY format");
                     string creditCardYear = Console.ReadLine().Trim().ToLower();
                     bool isNumeric = double.TryParse($"{creditCardYear}", out _);
                     int yearNum = int.Parse(creditCardYear);
@@ -181,8 +182,24 @@ namespace POSMidterm
                 }
             }
         }
-        
-        
+        public string GetCheckNumber()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please enter your check number");
+                string checkNumber = Console.ReadLine().ToLower().Trim();
+                bool isNumeric = double.TryParse($"{checkNumber}", out _);
+                if (isNumeric)
+                {
+                    return checkNumber;
+                }
+                else
+                {
+                    Console.WriteLine("That is not a valid check number. Please try again");
+                    continue;
+                }
+            }
+        }
     }
 }
 
