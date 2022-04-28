@@ -5,11 +5,11 @@
         public static void Main()
         {
             Order o = new Order();
-            for(int i = 0; i < o.ItemsForSale.Count; i++)
-            {
-                Console.WriteLine(o.ItemsForSale[i].ProductName);
-            }
+            Menu m = new Menu("",CategoryType.Drink,"", 5);
 
+            m.PrintTable();
+            
+          
             
         }
     }
