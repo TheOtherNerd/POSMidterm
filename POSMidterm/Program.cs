@@ -18,7 +18,9 @@
 
         public static void Main()
         {
+
             bool isDiscount = false;
+
             bool runAgain = true;
             Console.WriteLine("Welcome to our Coffee Shop. Please take a look at our menu. ");
             while (runAgain) //gives user chance to see the menu again for multiple purchaces
