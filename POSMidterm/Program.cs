@@ -3,6 +3,8 @@
     public class Program
     {
         static Order o = new Order();
+        static Menu m = new Menu("", CategoryType.Drink, "", 5);
+        static Helper h = new Helper();
         static string paymentMethod;
         static string creditCardNumber;
         static string creditCardMonth;
@@ -10,22 +12,19 @@
         static string checkNumber;
         static double cashTender;
         static int cvv;
+        static int userInput;
+        static int desiredQuantity;
+        static bool runAgain = true;
 
         public static void Main()
         { 
-            Menu m = new Menu("",CategoryType.Drink,"", 5);
-            Helper h = new Helper();
-            int userInput;
-            int desiredQuantity;
-            bool runAgain = true;
-            
             Console.WriteLine("Welcome to our Coffee Shop. Please take a look at our menu. ");
-            while (runAgain)
+            while (runAgain) //gives user chance to see the menu again for multiple purchaces
             {
                 m.PrintTable();
                 Console.WriteLine();
 
-                while (true)
+                while (true) //failsafe 1 incase of bad inputs for desired item
                 {
                     Console.WriteLine("To order an item, please enter the number that corresponds with the desired item.");
                     try
@@ -38,9 +37,9 @@
                         }
                         else
                         {
-                            while (true)
+                            while (true) //failsafe 2 incase of bad inputs for quantity of selected item
                             {
-                                Console.WriteLine($"How many {o.ItemsForSale[userInput - 1].ProductName}s would you like to purchase?");
+                                Console.WriteLine($"Okay, {o.ItemsForSale[userInput - 1].ProductName}. How many would you like to purchase?");
                                 try
                                 {
                                     desiredQuantity = int.Parse(Console.ReadLine());
@@ -54,19 +53,19 @@
                                         o.AddToCart(userInput - 1, desiredQuantity);
                                         Console.WriteLine($"Okay, that'll be ${Math.Round(desiredQuantity * o.ItemsForSale[userInput - 1].Price, 2)}");
                                         Console.WriteLine();
-                                        break;
+                                        break; //ends failsafe 2
                                     }
                                 }
-                                catch
+                                catch 
                                 {
                                     Console.WriteLine("Sorry, that was not a valid input. Please try again.");
                                     continue;
                                 }
                             }
-                            break;
+                            break; //ends failsafe 1
                         }
                     }
-                    catch
+                    catch 
                     {
                         Console.WriteLine("Sorry, that was not a valid input. Please try again.");
                         continue;
@@ -74,8 +73,9 @@
 
                 }
                 runAgain = h.RunAgain();
-            }    
-                double grandTotal = o.PrintRecipt();
+            }  
+            //picking items to buy ends here move onto paying  
+            double grandTotal = o.PrintRecipt();
             while (true)
             {
                 Console.WriteLine();
@@ -115,32 +115,7 @@
             }
             Console.WriteLine();
             o.PrintRecipt();
-            if (paymentMethod == "credit")
-            {
-                Console.WriteLine();
-                Console.WriteLine("Payment Method: Credit Card");
-                Console.WriteLine($"Card Number:     {creditCardNumber}");
-                Console.WriteLine($"Expiration Date: {creditCardMonth} / {creditCardYear}");
-                Console.WriteLine($"CVV :            {cvv}");
-            }
-            else if (paymentMethod == "check")
-            {
-                Console.WriteLine();
-                Console.WriteLine("Payment Method: Check");
-                Console.WriteLine($"Check Number: {checkNumber}");
-            }
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("Payment Method: Cash");
-                Console.WriteLine($"Amount Tendered: ${cashTender}");
-                Console.WriteLine($"Change Due: ${Math.Round(cashTender - grandTotal,2)}");
-            }
-            Console.WriteLine();
-            Console.WriteLine("Thank you for shopping with us. Press enter to help the next customer.");
-            Console.WriteLine();
-            Console.ReadLine();
-            o.ItemsPurchased.Clear();
+            o.PrintPayment(paymentMethod, creditCardNumber, creditCardMonth, creditCardYear, cvv, checkNumber, cashTender, grandTotal);
             Main();
         }
     }
