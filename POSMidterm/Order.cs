@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace POSMidterm
+﻿namespace POSMidterm
 {
     public class Order
     {
@@ -13,20 +7,20 @@ namespace POSMidterm
 
         public Order()
         {
-            ItemsForSale.Add(new Product("Coffee", CategoryType.Drink, "Nice hot coffee", 5.99));
-            ItemsForSale.Add(new Product("Tea", CategoryType.Drink, "Lemongrass tea", 3.99));
-            ItemsForSale.Add(new Product("Cookie", CategoryType.Pastry, "Warm chocolate chip", .99));
-            ItemsForSale.Add(new Product("Mug", CategoryType.Merch, "Cup with store logo", 9.99));
-            ItemsForSale.Add(new Product("Egg Sandwich", CategoryType.Meal, "Delicious egg sandwich", 7.99));
+            ItemsForSale.Add(new Product("Coffee", CategoryType.Drink, "Brewed Fresh Weekly!", 2.99));
+            ItemsForSale.Add(new Product("Tea", CategoryType.Drink, "Not suitable for fortune telling.", 1.99));
+            ItemsForSale.Add(new Product("Cookie", CategoryType.Pastry, "I'm pretty sure these are chocolate.", .99));
+            ItemsForSale.Add(new Product("Mug", CategoryType.Merch, "Handle sold separately.", 9.99));
+            ItemsForSale.Add(new Product("Egg Sandwich", CategoryType.Meal, "Delicious egg sandwich.", 7.99));
             ItemsForSale.Add(new Product("Croissant", CategoryType.Pastry, "Warm Cross-ant!", 1.99));
-            ItemsForSale.Add(new Product("Espresso", CategoryType.Drink, "Double Shot when you're double tired", 3.99));
-            ItemsForSale.Add(new Product("Grilled Cheese", CategoryType.Meal, "Bread, Cheese - Hot", 3.99));
-            ItemsForSale.Add(new Product("Insulated Thermos", CategoryType.Merch, "Keep it HOT! (or cold)", 29.99));
+            ItemsForSale.Add(new Product("Espresso", CategoryType.Drink, "Double Shot for when you're double tired.", 3.99));
+            ItemsForSale.Add(new Product("Grilled Cheese", CategoryType.Meal, "Bread - Cheese - Heat.", 3.99));
+            ItemsForSale.Add(new Product("Insulated Thermos", CategoryType.Merch, "Keep it HOT! (or cold).", 29.99));
             ItemsForSale.Add(new Product("Tea Set", CategoryType.Merch, "Make your own tea! At home or on the go!", 59.99));
-            ItemsForSale.Add(new Product("Cupcake", CategoryType.Pastry, "It's a cup, made of cake.", 2.99));
+            ItemsForSale.Add(new Product("Cupcake", CategoryType.Pastry, "It's a cup (made of cake).", 2.99));
             ItemsForSale.Add(new Product("Bag of Coffee Beans", CategoryType.Drink, "Make your own damn coffee!", 14.99));
+            ItemsForSale.Add(new Product("A bird that is definately not fake", CategoryType.Meal, "It's totally real. Stop asking questions.", 404));
         }
-
         public List<Product> AddToCart(int index, int quantity)
         {
             for (int i = 0; i < quantity; i++)
@@ -35,45 +29,42 @@ namespace POSMidterm
             }
             return ItemsPurchased;
         }
-        // enhance receipt to print a formatted table that includes price for each line item.
+        // prints receipt and calculates subtotal, tax, and grand total
         public double PrintRecipt(bool isDiscount)
-        {   
-            Console.WriteLine("          Receipt");
-            Console.WriteLine("===========================");
+        {
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine("            Receipt");
+            Console.WriteLine("================================");
             double subtotal = 0;
-            String s = String.Format("{0,-40}\n\n","Receipt");
-            
             for (int i = 0; i < ItemsPurchased.Count; i++)
             {
-                String b = String.Format("{0,-20} {1,-20}", ItemsPurchased[i].ProductName, "$"+ItemsPurchased[i].Price);
+                String b = String.Format("{0,-25} {1,-25}", ItemsPurchased[i].ProductName, "$"+ItemsPurchased[i].Price);
                 Console.WriteLine($"{b}"); 
                 subtotal += ItemsPurchased[i].Price;
             }
-            
-            
             Console.WriteLine();
-            Console.WriteLine($"Subtotal:            ${ Math.Round(subtotal, 2)}");
+            Console.WriteLine($"Subtotal:                 ${ Math.Round(subtotal, 2)}");
             if (isDiscount)
             {
                 double discount = Math.Round(subtotal * .2, 2);
-                Console.WriteLine($"Discount:            ${discount}");
+                Console.WriteLine($"Discount:                 ${discount}");
                 subtotal -= discount;
                 double taxAmount = .065 * subtotal;
                 double grandTotal = subtotal + taxAmount;
-                Console.WriteLine($"Tax:                 ${Math.Round(taxAmount, 2)}");
-                Console.WriteLine($"Total:               ${Math.Round(grandTotal, 2)}");
+                Console.WriteLine($"Tax:                      ${Math.Round(taxAmount, 2)}");
+                Console.WriteLine($"Total:                    ${ Math.Round(grandTotal, 2)}");
+                Console.ForegroundColor = ConsoleColor.White;
                 return grandTotal;
             }
             else
             {
                 double taxAmount = .065 * subtotal;
                 double grandTotal = subtotal + taxAmount;
-                Console.WriteLine($"Tax:                 ${Math.Round(taxAmount, 2)}");
-                Console.WriteLine($"Total:               ${Math.Round(grandTotal, 2)}");
+                Console.WriteLine($"Tax:                      ${Math.Round(taxAmount, 2)}");
+                Console.WriteLine($"Total:                    ${Math.Round(grandTotal, 2)}");
+                Console.ForegroundColor = ConsoleColor.White;
                 return grandTotal;
-            }
-
-            
+            }            
         }
         public double PayByCash(double grandTotal)
         {
@@ -99,8 +90,6 @@ namespace POSMidterm
                         Console.WriteLine("That is not a valid response. Please try again");
                         continue;
                     }
-                   
-
                 }
                 catch
                 {
@@ -154,7 +143,6 @@ namespace POSMidterm
                     Console.WriteLine("That is not a valid expiration date. Please try again.");
                     continue;
                 }
-
             }
         }
         public string GetCreditCardYear()
@@ -217,7 +205,7 @@ namespace POSMidterm
                 {
                     Console.WriteLine("That is not a valid check number. Please try again");
                     continue;
-                }
+                } 
             }
         }
         //Prints payment method for user to review then clears list to be ready for next customer
@@ -225,24 +213,37 @@ namespace POSMidterm
         {
             if (method == "credit")
             {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine();
-                Console.WriteLine("Payment Method:  Credit Card");
-                Console.WriteLine($"Card Number:     {creditCardNumber}");
+                Console.WriteLine("Payment Method: Credit Card");
+                Console.WriteLine($"Card Number: {creditCardNumber}");
                 Console.WriteLine($"Expiration Date: {creditCardMonth} / {creditCardYear}");
-                Console.WriteLine($"CVV :            {cvv}");
+                Console.WriteLine($"CVV : {cvv}");
+                Console.WriteLine($"Signature:______________________________");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             else if (method == "check")
             {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine();
                 Console.WriteLine("Payment Method: Check");
                 Console.WriteLine($"Check Number: {checkNumber}");
+                Console.ForegroundColor = ConsoleColor.White;
             }
-            else
+            else if (method == "cash")
             {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine();
                 Console.WriteLine("Payment Method:  Cash");
                 Console.WriteLine($"Amount Tendered: ${cashTender}");
                 Console.WriteLine($"Change Due: \t ${Math.Round(cashTender - grandTotal, 2)}");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("Payment Method:  Five finger discount.");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             Console.WriteLine();
             Console.WriteLine("Thank you for shopping with us. Press enter to help the next customer.");
@@ -252,20 +253,17 @@ namespace POSMidterm
         }
         public bool isDiscounted()
         {
-          Console.WriteLine("Please enter your discount code.");
-          string coupon = Console.ReadLine().Trim().ToLower();
+            Console.WriteLine("Please enter your coupon code.");
+            string coupon = Console.ReadLine().Trim().ToLower();
           if (coupon == "loganisawesome" || coupon == "austinisawesome")
           {
                 return true;
           }
           else 
           {
-                Console.WriteLine("That is not a valid discount code.");
+                Console.WriteLine("That is not a valid coupon code.");
                 return false;
           }
         }
     }
 }
-    
-
-

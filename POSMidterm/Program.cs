@@ -14,7 +14,7 @@
         static int cvv;
         static int userInput;
         static int desiredQuantity;
-        
+        static double grandTotal;
 
         public static void Main()
         {
@@ -34,7 +34,7 @@
                     try
                     {
                         userInput = int.Parse(Console.ReadLine());
-                        if (userInput < 0 || userInput > o.ItemsForSale.Count)
+                        if (userInput < 0 || userInput > o.ItemsForSale.Count +1)
                         {
                             Console.WriteLine("Sorry, that was not a valid input. Please try again.");
                             continue;
@@ -74,17 +74,16 @@
                         Console.WriteLine("Sorry, that was not a valid input. Please try again.");
                         continue;
                     }
-
                 }
                 runAgain = h.RunAgain();
-
             }  
             //picking items to buy ends here move onto paying  
-            double grandTotal = o.PrintRecipt(isDiscount);
+            
             while (true)
             {
+                grandTotal = o.PrintRecipt(isDiscount);
                 Console.WriteLine();
-                Console.WriteLine("How would you like to pay? We accept cash, credit, and checks.");
+                Console.WriteLine("How would you like to pay? We accept cash, credit, and checks. If you have a coupon that you would like to use. Please say coupon.");
                 try
                 {
                     paymentMethod = Console.ReadLine().ToLower().Trim();
@@ -111,6 +110,12 @@
                         isDiscount = o.isDiscounted();
                         continue;
                     }
+                    else if (paymentMethod == "run")
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("THIEF!");
+                        break;
+                    }
                     else
                     {
                         Console.WriteLine("Sorry, I didn't understand, please try again.");
@@ -123,7 +128,6 @@
                     continue;
                 }
             }
-            
             Console.WriteLine();
             o.PrintRecipt(isDiscount);
             o.PrintPayment(paymentMethod, creditCardNumber, creditCardMonth, creditCardYear, cvv, checkNumber, cashTender, grandTotal);
