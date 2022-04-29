@@ -133,8 +133,8 @@
             {
                 Console.WriteLine();
                 Console.WriteLine("Payment Method: Cash");
-                Console.WriteLine($"Amount Tendered: {cashTender}");
-                Console.WriteLine($"Change Due: {Math.Round(cashTender - grandTotal,2)}");
+                Console.WriteLine($"Amount Tendered: ${cashTender}");
+                Console.WriteLine($"Change Due: ${Math.Round(cashTender - grandTotal,2)}");
             }
             Console.WriteLine();
             Console.WriteLine("Thank you for shopping with us. Press enter to help the next customer.");
