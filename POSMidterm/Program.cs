@@ -3,7 +3,7 @@
     public class Program
     {
         static Order o = new Order();
-        static Menu m = new Menu("", CategoryType.Drink, "", 5);
+        static Menu m = new Menu();
         static Helper h = new Helper();
         static string paymentMethod;
         static string creditCardNumber;
@@ -18,6 +18,9 @@
 
         public static void Main()
         {
+
+            bool isDiscount = false;
+
             bool runAgain = true;
             Console.WriteLine("Welcome to our Coffee Shop. Please take a look at our menu. ");
             while (runAgain) //gives user chance to see the menu again for multiple purchaces
@@ -74,9 +77,10 @@
 
                 }
                 runAgain = h.RunAgain();
+
             }  
             //picking items to buy ends here move onto paying  
-            double grandTotal = o.PrintRecipt();
+            double grandTotal = o.PrintRecipt(isDiscount);
             while (true)
             {
                 Console.WriteLine();
@@ -102,6 +106,11 @@
                         checkNumber = o.GetCheckNumber();
                         break;
                     }
+                    else if (paymentMethod == "coupon")
+                    {
+                        isDiscount = o.isDiscounted();
+                        continue;
+                    }
                     else
                     {
                         Console.WriteLine("Sorry, I didn't understand, please try again.");
@@ -114,8 +123,9 @@
                     continue;
                 }
             }
+            
             Console.WriteLine();
-            o.PrintRecipt();
+            o.PrintRecipt(isDiscount);
             o.PrintPayment(paymentMethod, creditCardNumber, creditCardMonth, creditCardYear, cvv, checkNumber, cashTender, grandTotal);
             Main();
         }

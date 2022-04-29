@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace POSMidterm
 {
-    public class Menu : Product
+    public class Menu 
     {
-        public Menu(string ProductName, CategoryType Category, string Desc, double Price) : base(ProductName, Category, Desc, Price)
+        public Menu()
         {
 
         }
@@ -28,8 +28,8 @@ namespace POSMidterm
             o.ItemsForSale[9].ProductName = "10. Tea Set              ";
             o.ItemsForSale[10].ProductName = "11. Cupcake              ";
             o.ItemsForSale[11].ProductName = "12. Bag of Coffee Beans   ";
-      
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine();
             Console.Write("Item" + "\t\t\t\t\t" + "Price" + "\t\t  " + "Description");
             Console.WriteLine();
@@ -39,6 +39,7 @@ namespace POSMidterm
             {
                 Console.WriteLine(o.ItemsForSale[i].ProductName + "\t\t" + o.ItemsForSale[i].Price + "\t\t  " + o.ItemsForSale[i].Desc);
             }
+            Console.ForegroundColor = ConsoleColor.White;
             o.ItemsForSale[0].ProductName = "Coffee";
             o.ItemsForSale[1].ProductName = "Tea";
             o.ItemsForSale[2].ProductName = "Cookie";

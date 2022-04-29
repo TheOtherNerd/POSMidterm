@@ -27,7 +27,6 @@ namespace POSMidterm
             ItemsForSale.Add(new Product("Bag of Coffee Beans", CategoryType.Drink, "Make your own damn coffee!", 14.99));
         }
 
-        //stores selected products in a list
         public List<Product> AddToCart(int index, int quantity)
         {
             for (int i = 0; i < quantity; i++)
@@ -36,27 +35,46 @@ namespace POSMidterm
             }
             return ItemsPurchased;
         }
-        // prints items selected for purchace, subtotal, tax (6.5%), and grand total
-        public double PrintRecipt()
-        {
-            Console.WriteLine("Receipt");
-            Console.WriteLine("=============");
+        // enhance receipt to print a formatted table that includes price for each line item.
+        public double PrintRecipt(bool isDiscount)
+        {   
+            Console.WriteLine("          Receipt");
+            Console.WriteLine("===========================");
             double subtotal = 0;
+            String s = String.Format("{0,-40}\n\n","Receipt");
+            
             for (int i = 0; i < ItemsPurchased.Count; i++)
             {
-                Console.WriteLine($"{ItemsPurchased[i].ProductName}  ${ItemsPurchased[i].Price}");
+                String b = String.Format("{0,-20} {1,-20}", ItemsPurchased[i].ProductName, "$"+ItemsPurchased[i].Price);
+                Console.WriteLine($"{b}"); 
                 subtotal += ItemsPurchased[i].Price;
             }
+            
+            
             Console.WriteLine();
-            Console.WriteLine($"Subtotal:   ${ Math.Round(subtotal, 2)}");
-            double taxAmount = .065 * subtotal;
-            double grandTotal = subtotal + taxAmount;
-            Console.WriteLine($"Tax:        ${Math.Round(taxAmount, 2)}");
-            Console.WriteLine($"Total:      ${Math.Round(grandTotal, 2)}");
+            Console.WriteLine($"Subtotal:            ${ Math.Round(subtotal, 2)}");
+            if (isDiscount)
+            {
+                double discount = Math.Round(subtotal * .2, 2);
+                Console.WriteLine($"Discount:            ${discount}");
+                subtotal -= discount;
+                double taxAmount = .065 * subtotal;
+                double grandTotal = subtotal + taxAmount;
+                Console.WriteLine($"Tax:                 ${Math.Round(taxAmount, 2)}");
+                Console.WriteLine($"Total:               ${Math.Round(grandTotal, 2)}");
+                return grandTotal;
+            }
+            else
+            {
+                double taxAmount = .065 * subtotal;
+                double grandTotal = subtotal + taxAmount;
+                Console.WriteLine($"Tax:                 ${Math.Round(taxAmount, 2)}");
+                Console.WriteLine($"Total:               ${Math.Round(grandTotal, 2)}");
+                return grandTotal;
+            }
 
-            return grandTotal;
+            
         }
-        //only runs if cash is payment method, returns change
         public double PayByCash(double grandTotal)
         {
             while (true)
@@ -81,7 +99,7 @@ namespace POSMidterm
                         Console.WriteLine("That is not a valid response. Please try again");
                         continue;
                     }
-
+                   
 
                 }
                 catch
@@ -91,7 +109,6 @@ namespace POSMidterm
                 }
             }
         }
-        //only runs if credit card was selected as payment, gets a 16 numerical string
         public string GetCreditNumber()
         {
             while (true)
@@ -111,7 +128,6 @@ namespace POSMidterm
                 }
             }
         }
-        //only runs with card payment method, gets a numerical string of 2
         public string GetCreditCardMonth()
         {
             while (true)
@@ -141,7 +157,6 @@ namespace POSMidterm
 
             }
         }
-        //same as creditCardMonth but with a string of 4
         public string GetCreditCardYear()
         {
             while (true)
@@ -170,7 +185,6 @@ namespace POSMidterm
                 }
             }
         }
-        //gets a 3 digit number, small enough to use int
         public int GetCVV()
         {
             while (true)
@@ -188,7 +202,6 @@ namespace POSMidterm
                 }
             }
         }
-        //only used if payment method is check, checks if string entered is numerical
         public string GetCheckNumber()
         {
             while (true)
@@ -213,7 +226,7 @@ namespace POSMidterm
             if (method == "credit")
             {
                 Console.WriteLine();
-                Console.WriteLine("Payment Method: Credit Card");
+                Console.WriteLine("Payment Method:  Credit Card");
                 Console.WriteLine($"Card Number:     {creditCardNumber}");
                 Console.WriteLine($"Expiration Date: {creditCardMonth} / {creditCardYear}");
                 Console.WriteLine($"CVV :            {cvv}");
@@ -227,16 +240,29 @@ namespace POSMidterm
             else
             {
                 Console.WriteLine();
-                Console.WriteLine("Payment Method: Cash");
+                Console.WriteLine("Payment Method:  Cash");
                 Console.WriteLine($"Amount Tendered: ${cashTender}");
-                Console.WriteLine($"Change Due: ${Math.Round(cashTender - grandTotal, 2)}");
+                Console.WriteLine($"Change Due: \t ${Math.Round(cashTender - grandTotal, 2)}");
             }
             Console.WriteLine();
             Console.WriteLine("Thank you for shopping with us. Press enter to help the next customer.");
             Console.WriteLine();
             Console.ReadLine();
             ItemsPurchased.Clear();
-            
+        }
+        public bool isDiscounted()
+        {
+          Console.WriteLine("Please enter your discount code.");
+          string coupon = Console.ReadLine().Trim().ToLower();
+          if (coupon == "loganisawesome" || coupon == "austinisawesome")
+          {
+                return true;
+          }
+          else 
+          {
+                Console.WriteLine("That is not a valid discount code.");
+                return false;
+          }
         }
     }
 }

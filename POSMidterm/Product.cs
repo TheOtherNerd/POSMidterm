@@ -14,7 +14,7 @@ namespace POSMidterm
         Meal
     }
 
-    public /*abstract*/ class Product
+    public class Product
     {
         public string ProductName { get; set; }
         public CategoryType Category { get; set; }
@@ -28,6 +28,5 @@ namespace POSMidterm
             this.Desc = Desc;
             this.Price = Price;
         }
-
     }
 }
