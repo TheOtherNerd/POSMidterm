@@ -27,6 +27,7 @@ namespace POSMidterm
             ItemsForSale.Add(new Product("Bag of Coffee Beans", CategoryType.Drink, "Make your own damn coffee!", 14.99));
         }
 
+        //stores selected products in a list
         public List<Product> AddToCart(int index, int quantity)
         {
             for (int i = 0; i < quantity; i++)
@@ -35,7 +36,7 @@ namespace POSMidterm
             }
             return ItemsPurchased;
         }
-        // enhance receipt to print a formatted table that includes price for each line item.
+        // prints items selected for purchace, subtotal, tax (6.5%), and grand total
         public double PrintRecipt()
         {
             Console.WriteLine("Receipt");
@@ -43,7 +44,7 @@ namespace POSMidterm
             double subtotal = 0;
             for (int i = 0; i < ItemsPurchased.Count; i++)
             {
-                Console.WriteLine(ItemsPurchased[i].ProductName);
+                Console.WriteLine($"{ItemsPurchased[i].ProductName}  ${ItemsPurchased[i].Price}");
                 subtotal += ItemsPurchased[i].Price;
             }
             Console.WriteLine();
@@ -55,6 +56,7 @@ namespace POSMidterm
 
             return grandTotal;
         }
+        //only runs if cash is payment method, returns change
         public double PayByCash(double grandTotal)
         {
             while (true)
@@ -89,6 +91,7 @@ namespace POSMidterm
                 }
             }
         }
+        //only runs if credit card was selected as payment, gets a 16 numerical string
         public string GetCreditNumber()
         {
             while (true)
@@ -108,6 +111,7 @@ namespace POSMidterm
                 }
             }
         }
+        //only runs with card payment method, gets a numerical string of 2
         public string GetCreditCardMonth()
         {
             while (true)
@@ -137,6 +141,7 @@ namespace POSMidterm
 
             }
         }
+        //same as creditCardMonth but with a string of 4
         public string GetCreditCardYear()
         {
             while (true)
@@ -165,6 +170,7 @@ namespace POSMidterm
                 }
             }
         }
+        //gets a 3 digit number, small enough to use int
         public int GetCVV()
         {
             while (true)
@@ -182,6 +188,7 @@ namespace POSMidterm
                 }
             }
         }
+        //only used if payment method is check, checks if string entered is numerical
         public string GetCheckNumber()
         {
             while (true)
@@ -200,6 +207,39 @@ namespace POSMidterm
                 }
             }
         }
+        //Prints payment method for user to review then clears list to be ready for next customer
+        public void PrintPayment(string method, string creditCardNumber, string creditCardMonth, string creditCardYear, int cvv, string checkNumber, double cashTender, double grandTotal)
+        {
+            if (method == "credit")
+            {
+                Console.WriteLine();
+                Console.WriteLine("Payment Method: Credit Card");
+                Console.WriteLine($"Card Number:     {creditCardNumber}");
+                Console.WriteLine($"Expiration Date: {creditCardMonth} / {creditCardYear}");
+                Console.WriteLine($"CVV :            {cvv}");
+            }
+            else if (method == "check")
+            {
+                Console.WriteLine();
+                Console.WriteLine("Payment Method: Check");
+                Console.WriteLine($"Check Number: {checkNumber}");
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Payment Method: Cash");
+                Console.WriteLine($"Amount Tendered: ${cashTender}");
+                Console.WriteLine($"Change Due: ${Math.Round(cashTender - grandTotal, 2)}");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Thank you for shopping with us. Press enter to help the next customer.");
+            Console.WriteLine();
+            Console.ReadLine();
+            ItemsPurchased.Clear();
+            
+        }
     }
 }
+    
+
 
