@@ -1,12 +1,7 @@
-﻿using System;
-namespace POSMidterm
+﻿namespace POSMidterm
 {
 	public class Helper
 	{
-		public Helper()
-		{
-
-		}
 		public bool RunAgain()
         {
             Console.WriteLine("Would you like to view the menu again? Please enter y/n");
