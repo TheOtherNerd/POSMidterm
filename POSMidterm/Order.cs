@@ -38,8 +38,8 @@
             double subtotal = 0;
             for (int i = 0; i < ItemsPurchased.Count; i++)
             {
-                String b = String.Format("{0,-25} {1,-25}", ItemsPurchased[i].ProductName, "$"+ItemsPurchased[i].Price);
-                Console.WriteLine($"{b}"); 
+                String b = String.Format("{0,-25} {1,-25}", ItemsPurchased[i].ProductName, "$" + ItemsPurchased[i].Price);
+                Console.WriteLine($"{b}");
                 subtotal += ItemsPurchased[i].Price;
             }
             Console.WriteLine();
@@ -64,35 +64,41 @@
                 Console.WriteLine($"Total:                    ${Math.Round(grandTotal, 2)}");
                 Console.ForegroundColor = ConsoleColor.White;
                 return grandTotal;
-            }            
+            }
         }
         public double PayByCash(double grandTotal)
         {
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine($"Your total is ${Math.Round(grandTotal, 2)}");
+                Console.WriteLine();
                 Console.WriteLine("What is the total value of the tender you are paying with");
                 try
                 {
                     double tender = double.Parse(Console.ReadLine());
                     if (tender >= grandTotal)
                     {
+                        Console.WriteLine();
                         Console.WriteLine($"Thanks. That's ${Math.Round(tender - grandTotal, 2)} in change coming back to you.");
                         return tender;
                     }
                     else if (tender < grandTotal)
                     {
+                        Console.WriteLine();
                         Console.WriteLine($"That's not enough! You still owe ${Math.Round(grandTotal - tender, 2)}. Let's try that again.");
                         continue;
                     }
                     else
                     {
+                        Console.WriteLine();
                         Console.WriteLine("That is not a valid response. Please try again");
                         continue;
                     }
                 }
                 catch
                 {
+                    Console.WriteLine();
                     Console.WriteLine("Sorry, that is not a valid response. Please try again.");
                     continue;
                 }
@@ -134,12 +140,14 @@
                     }
                     else
                     {
+                        Console.WriteLine();
                         Console.WriteLine("That is not a valid expiration date. Please try again.");
                         continue;
                     }
                 }
                 catch
                 {
+                    Console.WriteLine();
                     Console.WriteLine("That is not a valid expiration date. Please try again.");
                     continue;
                 }
@@ -151,6 +159,7 @@
             {
                 try
                 {
+                    Console.WriteLine();
                     Console.WriteLine("In which year does your credit card expire? Please enter in YYYY format");
                     string creditCardYear = Console.ReadLine().Trim().ToLower();
                     bool isNumeric = double.TryParse($"{creditCardYear}", out _);
@@ -162,12 +171,14 @@
                     }
                     else
                     {
+                        Console.WriteLine();
                         Console.WriteLine("That is not a valid expiration date. Please try again.");
                         continue;
                     }
                 }
                 catch
                 {
+                    Console.WriteLine();
                     Console.WriteLine("That is not a valid expiration date. Please try again.");
                     continue;
                 }
@@ -177,6 +188,7 @@
         {
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("Please enter your CVV");
                 try
                 {
@@ -185,6 +197,7 @@
                 }
                 catch
                 {
+                    Console.WriteLine();
                     Console.WriteLine("That is not a valid CVV, please try again.");
                     continue;
                 }
@@ -194,6 +207,7 @@
         {
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("Please enter your check number");
                 string checkNumber = Console.ReadLine().ToLower().Trim();
                 bool isNumeric = double.TryParse($"{checkNumber}", out _);
@@ -203,9 +217,10 @@
                 }
                 else
                 {
+                    Console.WriteLine();
                     Console.WriteLine("That is not a valid check number. Please try again");
                     continue;
-                } 
+                }
             }
         }
         //Prints payment method for user to review then clears list to be ready for next customer
@@ -219,7 +234,6 @@
                 Console.WriteLine($"Card Number: {creditCardNumber}");
                 Console.WriteLine($"Expiration Date: {creditCardMonth} / {creditCardYear}");
                 Console.WriteLine($"CVV : {cvv}");
-                Console.WriteLine($"Signature:______________________________");
                 Console.ForegroundColor = ConsoleColor.White;
             }
             else if (method == "check")
@@ -253,17 +267,19 @@
         }
         public bool isDiscounted()
         {
+            Console.WriteLine();
             Console.WriteLine("Please enter your coupon code.");
             string coupon = Console.ReadLine().Trim().ToLower();
-          if (coupon == "loganisawesome" || coupon == "austinisawesome")
-          {
+            if (coupon == "loganisawesome" || coupon == "austinisawesome")
+            {
                 return true;
-          }
-          else 
-          {
+            }
+            else
+            {
+                Console.WriteLine();
                 Console.WriteLine("That is not a valid coupon code.");
                 return false;
-          }
+            }
         }
     }
 }

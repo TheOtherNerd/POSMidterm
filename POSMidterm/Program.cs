@@ -18,24 +18,25 @@
 
         public static void Main()
         {
-
             bool isDiscount = false;
 
             bool runAgain = true;
             Console.WriteLine("Welcome to our Coffee Shop. Please take a look at our menu. ");
             while (runAgain) //gives user chance to see the menu again for multiple purchaces
-            {
+            {   
                 m.PrintTable();
                 Console.WriteLine();
 
                 while (true) //failsafe 1 incase of bad inputs for desired item
                 {
+                    Console.WriteLine();
                     Console.WriteLine("To order an item, please enter the number that corresponds with the desired item.");
                     try
                     {
                         userInput = int.Parse(Console.ReadLine());
                         if (userInput < 0 || userInput > o.ItemsForSale.Count +1)
                         {
+                            Console.WriteLine();
                             Console.WriteLine("Sorry, that was not a valid input. Please try again.");
                             continue;
                         }
@@ -43,25 +44,29 @@
                         {
                             while (true) //failsafe 2 incase of bad inputs for quantity of selected item
                             {
+                                Console.WriteLine();
                                 Console.WriteLine($"Okay, {o.ItemsForSale[userInput - 1].ProductName}. How many would you like to purchase?");
                                 try
                                 {
                                     desiredQuantity = int.Parse(Console.ReadLine());
                                     if (desiredQuantity < 1)
                                     {
+                                        Console.WriteLine();
                                         Console.WriteLine("You must enter an integer greater than zero.");
                                         continue;
                                     }
                                     else
                                     {
+                                        Console.WriteLine();
                                         o.AddToCart(userInput - 1, desiredQuantity);
                                         Console.WriteLine($"Okay, that'll be ${Math.Round(desiredQuantity * o.ItemsForSale[userInput - 1].Price, 2)}");
                                         Console.WriteLine();
                                         break; //ends failsafe 2
                                     }
                                 }
-                                catch 
+                                catch
                                 {
+                                    Console.WriteLine();
                                     Console.WriteLine("Sorry, that was not a valid input. Please try again.");
                                     continue;
                                 }
@@ -69,8 +74,9 @@
                             break; //ends failsafe 1
                         }
                     }
-                    catch 
+                    catch
                     {
+                        Console.WriteLine();
                         Console.WriteLine("Sorry, that was not a valid input. Please try again.");
                         continue;
                     }
@@ -78,9 +84,8 @@
                 runAgain = h.RunAgain();
             }  
             //picking items to buy ends here move onto paying  
-            
             while (true)
-            {
+            {   
                 grandTotal = o.PrintRecipt(isDiscount);
                 Console.WriteLine();
                 Console.WriteLine("How would you like to pay? We accept cash, credit, and checks. If you have a coupon that you would like to use. Please say coupon.");
@@ -118,12 +123,14 @@
                     }
                     else
                     {
+                        Console.WriteLine();
                         Console.WriteLine("Sorry, I didn't understand, please try again.");
                         continue;
                     }
                 }
                 catch
                 {
+                    Console.WriteLine();
                     Console.WriteLine("Sorry, that is not a valid entry. Please try again.");
                     continue;
                 }
